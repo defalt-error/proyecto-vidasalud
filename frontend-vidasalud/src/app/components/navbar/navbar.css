@@ -1,0 +1,126 @@
+.vs-navbar {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.vs-navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.vs-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.vs-logo-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.35);
+}
+
+.vs-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.vs-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.vs-title-highlight {
+  color: #2dd4bf;
+}
+
+.vs-subtitle {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.vs-nav-links {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.vs-nav-item {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vs-nav-item:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.vs-nav-item.active {
+  color: #2dd4bf;
+  background: rgba(13, 148, 136, 0.15);
+  border: 1px solid rgba(13, 148, 136, 0.3);
+}
+
+.vs-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vs-role-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.role-label {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+}
+
+.vs-select-sm {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2dd4bf;
+  background: rgba(13, 148, 136, 0.15);
+  border: 1px solid rgba(13, 148, 136, 0.3);
+  border-radius: 6px;
+}
+
+.vs-user-info {
+  text-align: right;
+}
+
+.vs-user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+}

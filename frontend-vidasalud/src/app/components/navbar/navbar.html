@@ -1,0 +1,70 @@
+<header class="vs-navbar">
+  <div class="container vs-navbar-inner">
+    <div class="vs-brand" (click)="selectTab('dashboard')">
+      <div class="vs-logo-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+          <path d="M12 5v14"/>
+          <path d="M5 12h14"/>
+        </svg>
+      </div>
+      <div class="vs-brand-text">
+        <span class="vs-title">Vida<span class="vs-title-highlight">Salud</span></span>
+        <span class="vs-subtitle">Red de Salud Unificada</span>
+      </div>
+    </div>
+
+    <nav class="vs-nav-links" *ngIf="activeAccount">
+      <button 
+        *ngIf="canViewTab('dashboard')"
+        class="vs-nav-item" 
+        [class.active]="activeTab === 'dashboard'" 
+        (click)="selectTab('dashboard')">
+        Dashboard
+      </button>
+      <button 
+        *ngIf="canViewTab('appointments')"
+        class="vs-nav-item" 
+        [class.active]="activeTab === 'appointments'" 
+        (click)="selectTab('appointments')">
+        Atenciones
+      </button>
+      <button 
+        *ngIf="canViewTab('catalog')"
+        class="vs-nav-item" 
+        [class.active]="activeTab === 'catalog'" 
+        (click)="selectTab('catalog')">
+        Catálogo & Boxes
+      </button>
+      <button 
+        *ngIf="canViewTab('reports')"
+        class="vs-nav-item" 
+        [class.active]="activeTab === 'reports'" 
+        (click)="selectTab('reports')">
+        Reportería
+      </button>
+      <button 
+        *ngIf="canViewTab('audit')"
+        class="vs-nav-item" 
+        [class.active]="activeTab === 'audit'" 
+        (click)="selectTab('audit')">
+        Auditoría
+      </button>
+    </nav>
+
+    <div class="vs-user-menu" *ngIf="activeAccount">
+      <div class="vs-role-selector">
+        <span class="role-label">Rol Activo:</span>
+        <select class="vs-select vs-select-sm" [ngModel]="userRole" (ngModelChange)="onRoleSelect($event)">
+          <option *ngFor="let r of availableRoles" [value]="r">{{ r }}</option>
+        </select>
+      </div>
+      <div class="vs-user-info">
+        <div class="vs-user-name">{{ activeAccount.name || activeAccount.username }}</div>
+      </div>
+      <button class="vs-btn vs-btn-danger vs-btn-sm" (click)="logout()">
+        Cerrar Sesión
+      </button>
+    </div>
+  </div>
+</header>

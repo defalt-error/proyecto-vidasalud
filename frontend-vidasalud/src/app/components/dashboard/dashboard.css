@@ -1,0 +1,120 @@
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vs-header-banner {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.2) 0%, rgba(2, 132, 199, 0.2) 100%);
+  border: 1px solid rgba(13, 148, 136, 0.3);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vs-banner-text h2 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.vs-banner-text p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.vs-role-chip {
+  background: rgba(15, 23, 42, 0.6);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  font-size: 0.85rem;
+}
+
+.vs-role-chip strong {
+  color: #2dd4bf;
+}
+
+.vs-kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vs-kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vs-kpi-icon.teal { background: rgba(13, 148, 136, 0.2); color: #2dd4bf; }
+.vs-kpi-icon.amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.vs-kpi-icon.blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+.vs-kpi-icon.purple { background: rgba(139, 92, 246, 0.2); color: #c084fc; }
+
+.vs-kpi-val {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.vs-kpi-label {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+}
+
+.vs-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.vs-card-header h3 {
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.vs-next-citas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.vs-cita-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.vs-cita-card:hover {
+  border-color: var(--border-light);
+}
+
+.vs-cita-time {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #2dd4bf;
+  margin-bottom: 0.2rem;
+}
+
+.vs-cita-doctor {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.vs-cita-detail {
+  font-size: 0.825rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}

@@ -1,0 +1,40 @@
+<div class="audit-page">
+  <div class="vs-header-actions">
+    <div>
+      <h2>Auditoría & Trazabilidad de Eventos</h2>
+      <p>Historial inmutable de eventos clínicos-administrativos procesados por Kafka y almacenados para auditoría.</p>
+    </div>
+    <div class="vs-search-box">
+      <input type="text" class="vs-input" [(ngModel)]="searchTerm" placeholder="Buscar por usuario, evento o ID...">
+    </div>
+  </div>
+
+  <div class="vs-table-container">
+    <table class="vs-table">
+      <thead>
+        <tr>
+          <th>ID Audit</th>
+          <th>Fecha / Hora</th>
+          <th>Usuario (Azure AD)</th>
+          <th>Rol</th>
+          <th>Tipo de Evento</th>
+          <th>Ref. Atención</th>
+          <th>Origen Petición</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of filteredLogs">
+          <td><strong>{{ log.id }}</strong></td>
+          <td class="text-dim" style="font-size: 0.8rem;">{{ log.timestamp }}</td>
+          <td class="font-bold">{{ log.usuario }}</td>
+          <td><span class="role-badge">{{ log.rol }}</span></td>
+          <td>
+            <span class="event-chip">{{ log.evento }}</span>
+          </td>
+          <td><strong>{{ log.atencionId }}</strong></td>
+          <td><span class="origin-tag">{{ log.origen }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

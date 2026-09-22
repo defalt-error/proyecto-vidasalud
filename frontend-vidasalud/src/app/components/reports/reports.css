@@ -1,0 +1,77 @@
+.reports-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vs-range-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.vs-chart-placeholder {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 220px;
+  margin-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.vs-chart-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  height: 100%;
+  justify-content: flex-end;
+  width: 40px;
+}
+
+.vs-bar-fill {
+  width: 100%;
+  background: linear-gradient(180deg, #2dd4bf 0%, #0284c7 100%);
+  border-radius: 6px 6px 0 0;
+  transition: height 0.5s ease;
+}
+
+.vs-bar-val {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.vs-bar-lbl {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.vs-top-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.vs-top-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  margin-bottom: 0.35rem;
+}
+
+.vs-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.vs-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0d9488 0%, #3b82f6 100%);
+  border-radius: 9999px;
+}

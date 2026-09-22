@@ -1,0 +1,47 @@
+.appointments-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vs-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vs-header-actions h2 {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.vs-header-actions p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.vs-form-card {
+  border-left: 4px solid var(--primary);
+}
+
+.vs-form-card h3 {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 1.25rem;
+}
+
+.box-tag {
+  background: rgba(15, 23, 42, 0.7);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  font-size: 0.8rem;
+  color: #2dd4bf;
+}
+
+.vs-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}

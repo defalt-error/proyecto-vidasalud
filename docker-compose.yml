@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  ms-vidasalud-appointments:
+    build:
+      context: ./ms-vidasalud-appointments
+      dockerfile: Dockerfile
+    container_name: ms-vidasalud-appointments
+    ports:
+      - "8081:8081"
+    environment:
+      - SERVER_PORT=8081
+    networks:
+      - vidasalud-network
+    restart: unless-stopped
+
+  ms-vidasalud-catalog:
+    build:
+      context: ./ms-vidasalud-catalog
+      dockerfile: Dockerfile
+    container_name: ms-vidasalud-catalog
+    ports:
+      - "8083:8083"
+    environment:
+      - SERVER_PORT=8083
+    networks:
+      - vidasalud-network
+    restart: unless-stopped
+
+  ms-vidasalud-bff:
+    build:
+      context: ./ms-vidasalud-bff
+      dockerfile: Dockerfile
+    container_name: ms-vidasalud-bff
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_PORT=8080
+      - APPOINTMENTS_SERVICE_URL=http://ms-vidasalud-appointments:8081
+      - CATALOG_SERVICE_URL=http://ms-vidasalud-catalog:8083
+    depends_on:
+      - ms-vidasalud-appointments
+      - ms-vidasalud-catalog
+    networks:
+      - vidasalud-network
+    restart: unless-stopped
+
+  frontend-vidasalud:
+    build:
+      context: ./frontend-vidasalud
+      dockerfile: Dockerfile
+    container_name: frontend-vidasalud
+    ports:
+      - "4200:80"
+    depends_on:
+      - ms-vidasalud-bff
+    networks:
+      - vidasalud-network
+    restart: unless-stopped
+
+networks:
+  vidasalud-network:
+    driver: bridge

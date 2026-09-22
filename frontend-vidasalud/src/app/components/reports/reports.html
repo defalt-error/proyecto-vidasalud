@@ -1,0 +1,42 @@
+<div class="reports-page">
+  <div class="vs-header-actions">
+    <div>
+      <h2>Reportería & Analítica en Tiempo Real</h2>
+      <p>Métricas generadas por eventos en streaming (Apache Kafka) para toma de decisiones.</p>
+    </div>
+    <div class="vs-range-selector">
+      <button class="vs-btn vs-btn-sm" [class.vs-btn-primary]="range === 'last24h'" [class.vs-btn-secondary]="range !== 'last24h'" (click)="range = 'last24h'">Últimas 24h</button>
+      <button class="vs-btn vs-btn-sm" [class.vs-btn-primary]="range === 'last7d'" [class.vs-btn-secondary]="range !== 'last7d'" (click)="range = 'last7d'">Últimos 7 días</button>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Demanda por Hora -->
+    <div class="vs-card">
+      <h3>Atenciones por Hora (Peak Demand)</h3>
+      <div class="vs-chart-placeholder">
+        <div class="vs-chart-bar-container" *ngFor="let item of hourlyData">
+          <div class="vs-bar-fill" [style.height.%]="(item.atenciones / 45) * 100"></div>
+          <span class="vs-bar-val">{{ item.atenciones }}</span>
+          <span class="vs-bar-lbl">{{ item.hora }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prestaciones Más Demandadas -->
+    <div class="vs-card">
+      <h3>Top Prestaciones más Demandadas</h3>
+      <div class="vs-top-list">
+        <div class="vs-top-item" *ngFor="let service of topServices">
+          <div class="vs-top-info">
+            <span class="font-bold">{{ service.nombre }}</span>
+            <span class="text-dim">{{ service.atenciones }} atenciones ({{ service.porcentaje }})</span>
+          </div>
+          <div class="vs-progress-bar">
+            <div class="vs-progress-fill" [style.width]="service.porcentaje"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+.vs-main-content {
+  padding: 2rem 0 4rem;
+}
+
+.vs-login-hero {
+  display: flex;
+  justify-content: center;
+}
+
+.vs-hero-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2.5rem;
+  text-align: center;
+  max-width: 800px;
+  box-shadow: var(--shadow-card);
+}
+
+.vs-hero-badge {
+  display: inline-block;
+  background: rgba(13, 148, 136, 0.15);
+  color: #2dd4bf;
+  border: 1px solid rgba(13, 148, 136, 0.3);
+  padding: 0.35rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.25rem;
+}
+
+.vs-hero-card h1 {
+  font-size: 2.25rem;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.vs-hero-card p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vs-hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.vs-btn-lg {
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+}
+
+.vs-test-alert {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--primary);
+  color: #2dd4bf;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.vs-hero-image-wrap {
+  margin-top: 2rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.vs-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.vs-bff-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  margin-bottom: 1.5rem;
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.vs-status-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+}
+
+.vs-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.vs-status-actions {
+  display: flex;
+  gap: 0.5rem;
+}

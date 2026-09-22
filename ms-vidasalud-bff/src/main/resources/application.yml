@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-vidasalud-bff
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://login.microsoftonline.com/eae84345-1109-4542-8f5d-b7d04b718034/v2.0
+
+services:
+  appointments:
+    url: ${APPOINTMENTS_SERVICE_URL:http://localhost:8081}
+  catalog:
+    url: ${CATALOG_SERVICE_URL:http://localhost:8083}

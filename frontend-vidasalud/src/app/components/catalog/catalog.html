@@ -1,0 +1,201 @@
+<div class="catalog-page">
+  <div class="vs-header-actions">
+    <div>
+      <h2>Catálogo de Prestaciones & Boxes Clínicos</h2>
+      <p>Administra los aranceles, cupos por box y disponibilidad de infraestructura en la red VidaSalud.</p>
+    </div>
+    
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <button class="vs-btn vs-btn-primary" (click)="openCreateModal()" *ngIf="activeTab === 'prestaciones'">
+        + Nueva Prestación
+      </button>
+
+      <button class="vs-btn vs-btn-primary" (click)="openBoxModal()" *ngIf="activeTab === 'boxes'">
+        + Nuevo Box Clínico
+      </button>
+
+      <div class="vs-tab-toggle">
+        <button class="vs-btn vs-btn-sm" [class.vs-btn-primary]="activeTab === 'prestaciones'" [class.vs-btn-secondary]="activeTab !== 'prestaciones'" (click)="activeTab = 'prestaciones'">
+          Prestaciones & Precios
+        </button>
+        <button class="vs-btn vs-btn-sm" [class.vs-btn-primary]="activeTab === 'boxes'" [class.vs-btn-secondary]="activeTab !== 'boxes'" (click)="activeTab = 'boxes'">
+          Boxes Clínicos
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensajes de feedback -->
+  <div *ngIf="successMsg" class="alert alert-success">
+    ✓ {{ successMsg }}
+  </div>
+  <div *ngIf="errorMsg" class="alert alert-danger">
+    ⚠ {{ errorMsg }}
+  </div>
+
+  <!-- Vista Prestaciones (CRUD) -->
+  <div class="vs-table-container" *ngIf="activeTab === 'prestaciones'">
+    <table class="vs-table">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nombre Prestación</th>
+          <th>Categoría</th>
+          <th>Precio ($ CLP)</th>
+          <th>Cupos Dispo.</th>
+          <th>Acciones (CRUD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of services">
+          <td><strong>{{ s.code }}</strong></td>
+          <td class="font-bold">
+            {{ s.name }}
+            <div *ngIf="s.description" class="text-sm text-dim">{{ s.description }}</div>
+          </td>
+          <td><span class="cat-chip">{{ s.category }}</span></td>
+          <td style="color: #2dd4bf; font-weight: 700;">$ {{ s.price | number }}</td>
+          <td>
+            <span class="cupo-badge" [class.dispo]="s.availableQuota > 5" [class.low]="s.availableQuota <= 5">
+              {{ s.availableQuota }} cupos
+            </span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-action edit" (click)="openEditModal(s)">✏ Editar</button>
+              <button class="btn-action delete" (click)="deleteService(s)">🗑 Eliminar</button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="services.length === 0">
+          <td colspan="6" style="text-align: center; padding: 2rem; color: #94a3b8;">
+            No hay prestaciones registradas en el catálogo. Haz clic en "+ Nueva Prestación" para agregar una.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Vista Boxes Clínicos -->
+  <div class="grid-3" *ngIf="activeTab === 'boxes'">
+    <div class="vs-card vs-box-card" *ngFor="let b of boxes">
+      <div class="vs-box-header">
+        <h4>{{ b.name }}</h4>
+        <span class="vs-badge vs-badge-confirmada">ACTIVO</span>
+      </div>
+      <div class="vs-box-type">Código: <strong>{{ b.code }}</strong></div>
+      <div class="vs-box-type">Especialidad: {{ b.specialty || 'General' }}</div>
+      <div class="vs-box-doctor">
+        <span class="label">Centro:</span>
+        <div class="value">{{ b.centerId || 'Centro Principal' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Crear Prestación (POST) -->
+  <div class="modal-backdrop" *ngIf="showCreateModal">
+    <div class="modal-card">
+      <h3>Crear Nueva Prestación Médica</h3>
+      <p class="modal-subtitle">Ingresa los datos del nuevo arancel para el catálogo.</p>
+      
+      <div class="form-group">
+        <label>Código de Prestación</label>
+        <input type="text" [(ngModel)]="newService.code" class="form-control" placeholder="Ej: KINE-01">
+      </div>
+
+      <div class="form-group">
+        <label>Nombre de la Prestación</label>
+        <input type="text" [(ngModel)]="newService.name" class="form-control" placeholder="Ej: Kinesiología Motora">
+      </div>
+
+      <div class="form-group">
+        <label>Categoría</label>
+        <select [(ngModel)]="newService.category" class="form-control">
+          <option value="Medicina General">Medicina General</option>
+          <option value="Odontología">Odontología</option>
+          <option value="Pediatría">Pediatría</option>
+          <option value="Telemedicina">Telemedicina</option>
+          <option value="Kinesiología">Kinesiología</option>
+          <option value="Especialidades">Especialidades</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label>Precio ($ CLP)</label>
+          <input type="number" [(ngModel)]="newService.price" class="form-control" placeholder="25000">
+        </div>
+        <div class="form-group half">
+          <label>Cupos Disponibles</label>
+          <input type="number" [(ngModel)]="newService.availableQuota" class="form-control" placeholder="10">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea [(ngModel)]="newService.description" class="form-control" rows="2" placeholder="Detalles del procedimiento..."></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="vs-btn vs-btn-secondary" (click)="showCreateModal = false">Cancelar</button>
+        <button class="vs-btn vs-btn-primary" (click)="saveNewService()">Guardar Prestación</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Editar Prestación (PUT) -->
+  <div class="modal-backdrop" *ngIf="showEditModal">
+    <div class="modal-card">
+      <h3>Editar Prestación: {{ editingService.name }}</h3>
+      <p class="modal-subtitle">Actualiza el arancel y cupos disponibles.</p>
+
+      <div class="form-group">
+        <label>Nombre Prestación</label>
+        <input type="text" [(ngModel)]="editingService.name" class="form-control">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label>Precio ($ CLP)</label>
+          <input type="number" [(ngModel)]="editingService.price" class="form-control">
+        </div>
+        <div class="form-group half">
+          <label>Cupos Disponibles</label>
+          <input type="number" [(ngModel)]="editingService.availableQuota" class="form-control">
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="vs-btn vs-btn-secondary" (click)="showEditModal = false">Cancelar</button>
+        <button class="vs-btn vs-btn-primary" (click)="saveEditService()">Actualizar Cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Nuevo Box -->
+  <div class="modal-backdrop" *ngIf="showBoxModal">
+    <div class="modal-card">
+      <h3>Registrar Nuevo Box Clínico</h3>
+      
+      <div class="form-group">
+        <label>Código Box</label>
+        <input type="text" [(ngModel)]="newBox.code" class="form-control" placeholder="Ej: BOX-201">
+      </div>
+
+      <div class="form-group">
+        <label>Nombre Box</label>
+        <input type="text" [(ngModel)]="newBox.name" class="form-control" placeholder="Ej: Box 201 - Cardiología">
+      </div>
+
+      <div class="form-group">
+        <label>Especialidad</label>
+        <input type="text" [(ngModel)]="newBox.specialty" class="form-control" placeholder="Ej: Cardiología">
+      </div>
+
+      <div class="modal-actions">
+        <button class="vs-btn vs-btn-secondary" (click)="showBoxModal = false">Cancelar</button>
+        <button class="vs-btn vs-btn-primary" (click)="saveNewBox()">Guardar Box</button>
+      </div>
+    </div>
+  </div>
+</div>

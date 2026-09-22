@@ -1,0 +1,32 @@
+.audit-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vs-search-box {
+  min-width: 320px;
+}
+
+.role-badge {
+  background: rgba(139, 92, 246, 0.15);
+  color: #c4b5fd;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.event-chip {
+  background: rgba(13, 148, 136, 0.15);
+  color: #2dd4bf;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.825rem;
+}
+
+.origin-tag {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}

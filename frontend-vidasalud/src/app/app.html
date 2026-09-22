@@ -1,0 +1,79 @@
+<app-navbar 
+  [activeTab]="activeTab"
+  [activeAccount]="getActiveAccount()"
+  [userRole]="getUserRole()"
+  (tabChange)="onTabChange($event)"
+  (roleChange)="onRoleChange($event)"
+  (logoutEvent)="logout()">
+</app-navbar>
+
+<main class="vs-main-content">
+  <!-- PANTALLA DE LOGIN (Si no ha iniciado sesión) -->
+  <div class="container vs-login-hero" *ngIf="!isLoggedIn()">
+    <div class="vs-hero-card">
+      <div class="vs-hero-badge">Plataforma Unificada VidaSalud</div>
+      <h1>Gestión de Atenciones y Coordinación Clínica</h1>
+      <p>Agendamiento web, administración de boxes en tiempo real, trazabilidad de eventos y notificación al paciente en una sola plataforma.</p>
+      
+      <div class="vs-hero-actions">
+        <button class="vs-btn vs-btn-primary vs-btn-lg" (click)="login()">
+          <svg width="20" height="20" viewBox="0 0 23 23"><path fill="#f35325" d="M1 1h10v10H1z"/><path fill="#81bc06" d="M12 1h10v10H12z"/><path fill="#05a6f0" d="M1 12h10v10H1z"/><path fill="#ffba08" d="M12 12h10v10H12z"/></svg>
+          Iniciar Sesión con Microsoft Azure AD
+        </button>
+        <button class="vs-btn vs-btn-secondary" (click)="callPublicBackend()">
+          Probar Conexión Backend (CORS Test)
+        </button>
+      </div>
+
+      <div *ngIf="apiMessage" class="vs-test-alert">
+        <strong>Respuesta Backend:</strong> {{ apiMessage }}
+      </div>
+
+      <div class="vs-hero-image-wrap">
+        <img src="/vidasalud_hero.png" alt="Plataforma VidaSalud UI" class="vs-hero-img">
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA PRINCIPAL CON NAVEGACIÓN DENTRO DE LA PLATAFORMA -->
+  <div class="container vs-app-container" *ngIf="isLoggedIn()">
+    <!-- Banner de pruebas rápidas con el BFF -->
+    <div class="vs-bff-status-bar vs-card">
+      <div class="vs-status-info">
+        <span class="vs-status-dot"></span>
+        <span>Conexión BFF Spring Boot:</span> 
+        <strong *ngIf="apiMessage">{{ apiMessage }}</strong>
+        <span *ngIf="!apiMessage" class="text-dim">Sin probar aún</span>
+      </div>
+      <div class="vs-status-actions">
+        <button class="vs-btn vs-btn-secondary vs-btn-sm" (click)="callPublicBackend()">Test Endpoint Público</button>
+        <button class="vs-btn vs-btn-primary vs-btn-sm" (click)="callBackend()">Test JWT Autenticado</button>
+      </div>
+    </div>
+
+    <!-- Vistas según Tab seleccionado -->
+    <app-dashboard 
+      *ngIf="activeTab === 'dashboard'" 
+      [userRole]="getUserRole()" 
+      (navigate)="onTabChange($event)">
+    </app-dashboard>
+
+    <app-appointments 
+      *ngIf="activeTab === 'appointments'" 
+      [userRole]="getUserRole()">
+    </app-appointments>
+
+    <app-catalog 
+      *ngIf="activeTab === 'catalog'"
+      [userRole]="getUserRole()">
+    </app-catalog>
+
+    <app-reports 
+      *ngIf="activeTab === 'reports'">
+    </app-reports>
+
+    <app-audit 
+      *ngIf="activeTab === 'audit'">
+    </app-audit>
+  </div>
+</main>

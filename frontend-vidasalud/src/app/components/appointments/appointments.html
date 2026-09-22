@@ -1,0 +1,134 @@
+<div class="appointments-page">
+  <div class="vs-header-actions">
+    <div>
+      <h2>Gestión de Atenciones Médicas</h2>
+      <p>Flujo operacional: SOLICITADA ➔ CONFIRMADA ➔ EN_ESPERA ➔ EN_ATENCIÓN ➔ CERRADA.</p>
+    </div>
+    <button *ngIf="canCreate()" class="vs-btn vs-btn-primary" (click)="toggleForm()">
+      {{ showForm ? 'Cancelar' : '+ Agendar Nueva Atención' }}
+    </button>
+  </div>
+
+  <!-- Form Component -->
+  <div class="vs-card vs-form-card" *ngIf="showForm">
+    <h3>Agendar Nueva Atención Médica</h3>
+    <form (ngSubmit)="createAppointment()" class="grid-2">
+      <div>
+        <label class="vs-label">Nombre del Paciente</label>
+        <input type="text" class="vs-input" [(ngModel)]="newAppointment.paciente" name="paciente" placeholder="Ej: Francisca Silva" required>
+      </div>
+
+      <div>
+        <label class="vs-label">RUT del Paciente</label>
+        <input type="text" class="vs-input" [(ngModel)]="newAppointment.rut" name="rut" placeholder="Ej: 19.876.543-2" required>
+      </div>
+
+      <div>
+        <label class="vs-label">Prestación / Especialidad</label>
+        <select class="vs-select" [(ngModel)]="newAppointment.prestacion" name="prestacion">
+          <option *ngFor="let p of prestaciones" [value]="p">{{ p }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="vs-label">Box Asignado</label>
+        <select class="vs-select" [(ngModel)]="newAppointment.box" name="box">
+          <option *ngFor="let b of boxes" [value]="b">{{ b }}</option>
+        </select>
+      </div>
+
+      <div class="grid-full" style="grid-column: 1 / -1;">
+        <button type="submit" class="vs-btn vs-btn-primary">Guardar y Enviar Solicitud</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Appointments Table -->
+  <div class="vs-table-container">
+    <table class="vs-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Paciente / RUT</th>
+          <th>Prestación</th>
+          <th>Box</th>
+          <th>Fecha / Hora</th>
+          <th>Estado Actual</th>
+          <th>Acciones Permitidas (Rol: {{ userRole }})</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of appointments">
+          <td><strong>#{{ app.id }}</strong></td>
+          <td>
+            <div class="font-bold">{{ app.paciente }}</div>
+            <div class="text-dim" style="font-size: 0.775rem;">RUT: {{ app.rut }}</div>
+          </td>
+          <td>{{ app.prestacion }}</td>
+          <td><span class="box-tag">{{ app.box }}</span></td>
+          <td>{{ app.fecha }}</td>
+          <td>
+            <span class="vs-badge" [ngClass]="{
+              'vs-badge-solicitada': app.status === 'SOLICITADA',
+              'vs-badge-confirmada': app.status === 'CONFIRMADA',
+              'vs-badge-espera': app.status === 'EN_ESPERA',
+              'vs-badge-atencion': app.status === 'EN_ATENCIÓN',
+              'vs-badge-cerrada': app.status === 'CERRADA',
+              'vs-badge-cancelada': app.status === 'CANCELADA'
+            }">{{ app.status }}</span>
+          </td>
+          <td>
+            <div class="vs-actions-group">
+              <!-- Acciones exclusivas Recepcionista / Admin -->
+              <ng-container *ngIf="canManageFlow()">
+                <button 
+                  *ngIf="app.status === 'SOLICITADA'" 
+                  class="vs-btn vs-btn-sm vs-btn-primary" 
+                  (click)="changeStatus(app, 'CONFIRMADA')">
+                  Confirmar
+                </button>
+
+                <button 
+                  *ngIf="app.status === 'CONFIRMADA'" 
+                  class="vs-btn vs-btn-sm vs-btn-secondary" 
+                  (click)="changeStatus(app, 'EN_ESPERA')">
+                  A Sala Espera
+                </button>
+
+                <button 
+                  *ngIf="app.status === 'EN_ESPERA' || app.status === 'CONFIRMADA'" 
+                  class="vs-btn vs-btn-sm vs-btn-primary" 
+                  (click)="changeStatus(app, 'EN_ATENCIÓN')">
+                  Llamar a Box
+                </button>
+
+                <button 
+                  *ngIf="app.status === 'EN_ATENCIÓN'" 
+                  class="vs-btn vs-btn-sm vs-btn-secondary" 
+                  (click)="changeStatus(app, 'CERRADA')">
+                  Cerrar Atención
+                </button>
+              </ng-container>
+
+              <!-- Cancelar disponible para Paciente / Recepcionista / Admin -->
+              <button 
+                *ngIf="canCancel() && app.status !== 'CERRADA' && app.status !== 'CANCELADA'" 
+                class="vs-btn vs-btn-sm vs-btn-danger" 
+                (click)="changeStatus(app, 'CANCELADA')">
+                Cancelar
+              </button>
+
+              <!-- Para Auditor o sin acciones disponibles -->
+              <span *ngIf="!canManageFlow() && app.status === 'CERRADA'" class="text-dim" style="font-size: 0.8rem;">
+                Sin acciones (Atención Finalizada)
+              </span>
+              <span *ngIf="!canManageFlow() && !canCancel()" class="text-dim" style="font-size: 0.8rem;">
+                Solo Lectura (Auditor)
+              </span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

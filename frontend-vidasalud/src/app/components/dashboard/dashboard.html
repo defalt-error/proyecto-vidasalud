@@ -1,0 +1,109 @@
+<div class="dashboard-page">
+  <div class="vs-header-banner">
+    <div class="vs-banner-text">
+      <h2>Panel Operativo VidaSalud</h2>
+      <p>Vista unificada para la gestión de atenciones médicas y tiempos de espera en tiempo real.</p>
+    </div>
+    <div class="vs-role-chip">
+      <span>Rol Activo:</span> <strong>{{ userRole }}</strong>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="grid-4 vs-kpi-grid">
+    <div class="vs-card vs-kpi-card">
+      <div class="vs-kpi-icon teal">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div>
+        <div class="vs-kpi-val">{{ kpis.atencionesHoy }}</div>
+        <div class="vs-kpi-label">Atenciones Hoy</div>
+      </div>
+    </div>
+
+    <div class="vs-card vs-kpi-card">
+      <div class="vs-kpi-icon amber">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div>
+        <div class="vs-kpi-val">{{ kpis.tiempoEsperaPromedio }}</div>
+        <div class="vs-kpi-label">Tiempo Espera Prom.</div>
+      </div>
+    </div>
+
+    <div class="vs-card vs-kpi-card">
+      <div class="vs-kpi-icon blue">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div>
+        <div class="vs-kpi-val">{{ kpis.boxesActivos }}</div>
+        <div class="vs-kpi-label">Boxes Ocupados</div>
+      </div>
+    </div>
+
+    <div class="vs-card vs-kpi-card">
+      <div class="vs-kpi-icon purple">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div>
+        <div class="vs-kpi-val">{{ kpis.atencionesPendientes }}</div>
+        <div class="vs-kpi-label">Pendientes por Llamar</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operational Views -->
+  <div class="grid-2 vs-sections-grid">
+    <!-- Vista Recepción / Sala de Espera -->
+    <div class="vs-card">
+      <div class="vs-card-header">
+        <h3>Sala de Espera Activa</h3>
+        <button class="vs-btn vs-btn-secondary vs-btn-sm" (click)="onNavigate('appointments')">Ver Todas</button>
+      </div>
+      <div class="vs-table-container">
+        <table class="vs-table">
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th>Paciente</th>
+              <th>Box Asignado</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of waitlist">
+              <td><strong>{{ item.ticket }}</strong></td>
+              <td>{{ item.paciente }}</td>
+              <td>{{ item.box }}</td>
+              <td>
+                <span class="vs-badge" [ngClass]="{
+                  'vs-badge-espera': item.estado === 'EN_ESPERA',
+                  'vs-badge-confirmada': item.estado === 'CONFIRMADA'
+                }">{{ item.estado }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Vista Paciente / Próximas Citas -->
+    <div class="vs-card">
+      <div class="vs-card-header">
+        <h3>Mis Próximas Citas</h3>
+        <button class="vs-btn vs-btn-primary vs-btn-sm" (click)="onNavigate('appointments')">+ Agendar Cita</button>
+      </div>
+      <div class="vs-next-citas">
+        <div class="vs-cita-card" *ngFor="let cita of nextAppointments">
+          <div class="vs-cita-time">{{ cita.fecha }}</div>
+          <div class="vs-cita-doctor">{{ cita.doctor }}</div>
+          <div class="vs-cita-detail">{{ cita.especialidad }} — {{ cita.centro }}</div>
+          <div class="vs-cita-footer">
+            <span class="vs-badge vs-badge-confirmada" *ngIf="cita.estado === 'CONFIRMADA'">{{ cita.estado }}</span>
+            <span class="vs-badge vs-badge-solicitada" *ngIf="cita.estado === 'SOLICITADA'">{{ cita.estado }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
